@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Server Data</title>
+  </head>
+  <body>
+    <div id="data"></div>
+    <script>
+      function fetchData() {
+        fetch("http://localhost:3000/")
+          .then((res) => res.json())
+          .then((data) => {
+            const dataDiv = document.getElementById("data");
+            dataDiv.innerHTML = `
+              <p>CPU Load: ${data.cpuLoad}</p>
+              <p>CPU Temperature: ${data.cpuTemperature}</p>
+              <p>GPU Temperature: ${data.gpuTemperature}</p>
+            `;
+          })
+          .catch((error) => console.error(error));
+      }
+      fetchData();
+    </script>
+  </body>
+</html>
