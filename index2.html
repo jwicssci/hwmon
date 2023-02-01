@@ -1,107 +1,54 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-    <head>
-        <title>Hardware Stats</title>
-        <script
-            src="https://cdn.rawgit.com/Mikhus/canvas-gauges/gh-pages/download/2.1.7/all/gauge.min.js"></script>
-        <style>
-            canvas {
-            display: inline-block;
-            margin: 0 30px;
-            }
-        </style>
-    </head>
-    <body>
-        <!-- Injecting radial gauge -->
-        <canvas id="data" data-type="radial-gauge"
-            data-width="300"
-            data-height="300"
-            data-units="°C"
-            data-title="CPU Temperature"
-            data-min-value="0"
-            data-max-value="100"
-            data-value="30"
-            data-major-ticks="[0,10,20,30,40,50,60,70,80,90,100]"
-            data-minor-ticks="2"
-            data-stroke-ticks="true"
-            data-highlights='[ {"from": 0, "to": 49, "color": "rgba(0,0, 255, .3)"},
-        {"from": 50, "to": 100, "color": "rgba(255, 0, 0, .3)"} ]'
-            data-ticks-angle="225"
-            data-start-angle="67.5"
-            data-color-major-ticks="#ddd"
-            data-color-minor-ticks="#ddd"
-            data-color-title="#eee"
-            data-color-units="#ccc"
-            data-color-numbers="#eee"
-            data-color-plate="#222"
-            data-border-shadow-width="0"
-            data-borders="true"
-            data-needle-type="arrow"
-            data-needle-width="2"
-            data-needle-circle-size="7"
-            data-needle-circle-outer="true"
-            data-needle-circle-inner="false"
-            data-animation-duration="1500"
-            data-animation-rule="linear"
-            data-color-border-outer="#333"
-            data-color-border-outer-end="#111"
-            data-color-border-middle="#222"
-            data-color-border-middle-end="#111"
-            data-color-border-inner="#111"
-            data-color-border-inner-end="#333"
-            data-color-needle-shadow-down="#333"
-            data-color-needle-circle-outer="#333"
-            data-color-needle-circle-outer-end="#111"
-            data-color-needle-circle-inner="#111"
-            data-color-needle-circle-inner-end="#222"
-            data-value-box-border-radius="0"
-            data-color-value-box-rect="#222"
-            data-color-value-box-rect-end="#333">
-        </canvas>
-        <canvas data-type="radial-gauge"
-            data-width="300"
-            data-height="300"
-            data-units="°C"
-            data-title="GPU Temperature"
-            data-min-value="0"
-            data-max-value="100"
-            data-value="40"
-            data-major-ticks="[0,10,20,30,40,50,60,70,80,90,100]"
-            data-minor-ticks="2"
-            data-stroke-ticks="true"
-            data-highlights='[ {"from": 0, "to": 49, "color": "rgba(0,0, 255, .3)"},
-        {"from": 50, "to": 100, "color": "rgba(255, 0, 0, .3)"} ]'
-            data-ticks-angle="225"
-            data-start-angle="67.5"
-            data-color-major-ticks="#ddd"
-            data-color-minor-ticks="#ddd"
-            data-color-title="#eee"
-            data-color-units="#ccc"
-            data-color-numbers="#eee"
-            data-color-plate="#222"
-            data-border-shadow-width="0"
-            data-borders="true"
-            data-needle-type="arrow"
-            data-needle-width="2"
-            data-needle-circle-size="7"
-            data-needle-circle-outer="true"
-            data-needle-circle-inner="false"
-            data-animation-duration="1500"
-            data-animation-rule="linear"
-            data-color-border-outer="#333"
-            data-color-border-outer-end="#111"
-            data-color-border-middle="#222"
-            data-color-border-middle-end="#111"
-            data-color-border-inner="#111"
-            data-color-border-inner-end="#333"
-            data-color-needle-shadow-down="#333"
-            data-color-needle-circle-outer="#333"
-            data-color-needle-circle-outer-end="#111"
-            data-color-needle-circle-inner="#111"
-            data-color-needle-circle-inner-end="#222"
-            data-value-box-border-radius="0"
-            data-color-value-box-rect="#222"
-            data-color-value-box-rect-end="#333">
-        </canvas>
-    </body>
+  <head>
+    <title>Server Data</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.3.0/raphael.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/justgage@1.3.2/justgage.js"></script>
+    <style>
+      #cpuLoadGauge,
+      #cpuTemperatureGauge,
+      #gpuTemperatureGauge {
+        display: inline-block;
+        width: 300px;
+        height: 200px;
+        margin-right: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="cpuLoadGauge"></div>
+    <div id="cpuTemperatureGauge"></div>
+    <div id="gpuTemperatureGauge"></div>
+    <script>
+      function fetchData() {
+        fetch("http://localhost:3000/")
+          .then((res) => res.json())
+          .then((data) => {
+            const cpuLoadGauge = new JustGage({
+              id: "cpuLoadGauge",
+              value: data.cpuLoad,
+              min: 0,
+              max: 100,
+              title: "CPU Load"
+            });
+            const cpuTemperatureGauge = new JustGage({
+              id: "cpuTemperatureGauge",
+              value: data.cpuTemperature,
+              min: 0,
+              max: 100,
+              title: "CPU Temperature"
+            });
+            const gpuTemperatureGauge = new JustGage({
+              id: "gpuTemperatureGauge",
+              value: data.gpuTemperature,
+              min: 0,
+              max: 100,
+              title: "GPU Temperature"
+            });
+          })
+          .catch((error) => console.error(error));
+      }
+      fetchData();
+    </script>
+  </body>
 </html>
