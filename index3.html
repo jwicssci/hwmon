@@ -32,7 +32,8 @@
                 value: data.cpuLoad,
                 min: 0,
                 max: 100,
-                title: "CPU Load"
+                title: "CPU Load",
+                levelColors : [  "#a9d70b", "#F27C07",  "#ff0000" ]
               });
             } else {
               cpuLoadGauge.refresh(data.cpuLoad);
@@ -44,7 +45,8 @@
                 value: data.cpuTemperature,
                 min: 0,
                 max: 100,
-                title: "CPU Temperature"
+                title: "CPU Temperature",
+                levelColors : [  "#a9d70b", "#F27C07",  "#ff0000" ]
               });
             } else {
               cpuTemperatureGauge.refresh(data.cpuTemperature);
@@ -56,7 +58,8 @@
                 value: data.gpuTemperature,
                 min: 0,
                 max: 100,
-                title: "GPU Temperature"
+                title: "GPU Temperature",
+                levelColors : [  "#a9d70b", "#F27C07",  "#ff0000" ]
               });
             } else {
               gpuTemperatureGauge.refresh(data.gpuTemperature);
