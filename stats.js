@@ -18,11 +18,11 @@ function getCpuLoad() {
 
 function getCpuTemperature() {
   return new Promise((resolve, reject) => {
-    exec("cat /sys/class/hwmon/hwmon0/temp1_input", (error, stdout) => {
+    exec("./cputemp.sh", (error, stdout) => {
       if (error) {
         reject(error);
       } else {
-        const temperature = parseFloat(stdout) / 1000;
+        const temperature = parseFloat(stdout);
         resolve(temperature);
       }
     });
